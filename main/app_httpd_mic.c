@@ -154,7 +154,9 @@ static esp_err_t mic_wav_handler(httpd_req_t *req)
  		 printf("mic_wav_handler() :#3 i2s data length error\r\n");
       }
       //stereo2mono_cp((uint8_t *)(dtp+i+dtp_off), (uint32_t *)communicationData,sizeof(communicationData));
-      stereo2mono_cp_16bit((uint8_t *)(dtp+i+dtp_off), (uint32_t *)communicationData,sizeof(communicationData));
+      //stereo2mono_cp_16bit((uint8_t *)(dtp+i+dtp_off), (uint32_t *)communicationData,sizeof(communicationData));
+      // changed by nishi 2025.8.20
+      stereo2mono_cp_16bit((uint8_t *)(dtp+i+dtp_off), (uint8_t *)communicationData,sizeof(communicationData));
     }
     esp_err_t rc = httpd_resp_send(req, (const char *)dtp, headerSize+waveDataSize);
     free(dtp);
@@ -209,7 +211,9 @@ static esp_err_t mic_stream_wav_handler(httpd_req_t *req)
 			 printf("mic_stream_wav_handler() :#3 i2s data length error\r\n");
 		  }
 		  //stereo2mono_cp((uint8_t *)(dtp+i+dtp_off), (uint32_t *)communicationData,512);
-		  stereo2mono_cp_16bit((uint8_t *)(dtp+i+dtp_off), (uint32_t *)communicationData,sizeof(communicationData));
+		  //stereo2mono_cp_16bit((uint8_t *)(dtp+i+dtp_off), (uint32_t *)communicationData,sizeof(communicationData));
+          // changed by nishi 2025.8.20
+		  stereo2mono_cp_16bit((uint8_t *)(dtp+i+dtp_off), (uint8_t *)communicationData,sizeof(communicationData));
 		}
 		res = httpd_resp_send_chunk(req, (const char *)dtp, _wav_buf_len);
 		if (res != ESP_OK)
